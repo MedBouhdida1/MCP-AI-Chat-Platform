@@ -11,6 +11,7 @@ import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +30,7 @@ public class AIAgent {
 
 
 
-    public AIAgent(ChatClient.Builder chatClientBuilder, ToolCallbackProvider toolCallbackProvider) {
+    public AIAgent(ChatClient.Builder chatClientBuilder, @Qualifier("methodToolCallbackProvider") ToolCallbackProvider toolCallbackProvider) {
         this.chatClient = chatClientBuilder
                 .defaultToolCallbacks(toolCallbackProvider)
                 .defaultSystem("Answer the user question using provided tools.")
