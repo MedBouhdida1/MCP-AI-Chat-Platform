@@ -111,20 +111,16 @@ The frontend will be available at `http://localhost:4200`
 ```text
 MCP-AI-Chat-Platform/
 ├── Mcp-Back/                   # Backend Services
-│   ├── Mcp-client/            # Main Spring Boot Application
+│   ├── Mcp-client/            # Main Spring Boot Application with in-process MCP tools
 │   │   ├── src/main/java/org/example/mcpclient/
 │   │   │   ├── agents/        # AI Agent Implementation
 │   │   │   ├── Controllers/   # REST API Controllers
-│   │   │   └── Config/        # CORS & Configuration
+│   │   │   ├── Config/        # CORS & Configuration
+│   │   │   └── tools/         # Local MCP tool implementations
 │   │   └── src/main/resources/
-│   │       ├── application.properties
-│   │       └── mcp-servers.json
-│   ├── Mcp-server/            # MCP Tools Server
-│   │   └── src/main/java/org/example/mcpserver/
-│   │       └── tools/         # Stock & Company Tools
-│   └── python-mcp-server/     # Python FastMCP Server
-│       ├── server.py          # Employee Information Tools
-│       └── pyproject.toml
+│   │       └── application.properties
+│   ├── Mcp-server/            # (Legacy) standalone Spring MCP server
+│   └── python-mcp-server/     # (Legacy) FastMCP server
 └── Mcp-Front/                 # Angular Frontend
     ├── src/app/
     │   ├── components/chat/   # Chat Interface Components
@@ -132,21 +128,12 @@ MCP-AI-Chat-Platform/
     └── src/styles.css         # Global Styling
 ```
 
-## 🛠️ Available MCP Tools
-
-### Java MCP Server Tools
+## 🛠️ Available MCP Tools (In-Process)
 
 - `getCompanies()` - Retrieve list of all companies
 - `getCompany(name)` - Get specific company details
 - `getStockByCompanyName(name)` - Get current stock price
-
-### Python MCP Server Tools
-
-- `get_employee_info(name)` - Get employee information
-
-### File System Tools
-
-- Access to project files and directories via MCP protocol
+- `getEmployeeInfo(name)` - Get employee information
 
 ## 🔧 Configuration
 
@@ -161,10 +148,6 @@ spring.ai.azure.openai.api-key=${API_KEY}
 spring.ai.azure.openai.endpoint=${Endpoint}
 spring.ai.azure.openai.chat.options.deployment-name=${deployment}
 
-# MCP Client Configuration
-spring.ai.mcp.client.type=sync
-spring.ai.mcp.client.sse.connections.server1.url=http://localhost:8899
-spring.ai.mcp.client.stdio.servers-configuration=classpath:mcp-servers.json
 ```
 
 ### Frontend Configuration
@@ -191,7 +174,7 @@ AI: [Returns formatted list of companies with details including stock prices]
 
 ```text
 User: "Get employee information for John Doe"
-AI: [Uses Python MCP server to retrieve employee data]
+AI: [Returns local employee data via in-process tool]
 ```
 
 ## 🚦 API Endpoints
