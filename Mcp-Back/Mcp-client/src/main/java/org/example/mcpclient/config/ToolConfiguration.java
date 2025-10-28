@@ -1,4 +1,4 @@
-package org.example.mcpclient.config;
+package org.example.mcpclient.Config;
 
 import org.example.mcpclient.tools.EmployeeTools;
 import org.example.mcpclient.tools.StockTools;
